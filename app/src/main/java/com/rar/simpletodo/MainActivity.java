@@ -15,7 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, RecyclerAdapter.onButtonsClicks{
 
     private RecyclerView recyclerView;
     private FloatingActionButton addTaskButton;
@@ -29,12 +29,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         start();
     }
 
-    private void start()    {
+    private void start() {
         addTaskButton = findViewById(R.id.addTaskButton);
         recyclerView = findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RecyclerAdapter(tasks);
+        adapter = new RecyclerAdapter(tasks, MainActivity.this);
         recyclerView.setAdapter(adapter);
         addTaskButton.setOnClickListener(this);
         tasks = new ArrayList<>();
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addTask();
     }
 
-    public void addTask()    {
+    public void addTask() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -67,10 +67,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         newtaskname.getText().toString(),
                         newtaskdesc.getText().toString()
                 ));
-                adapter = new RecyclerAdapter(tasks);
+                adapter = new RecyclerAdapter(tasks, MainActivity.this);
                 recyclerView.setAdapter(adapter);
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public void deleteButtonClick(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("¿Borrar Tarea?");
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                tasks.remove(position);
+                adapter = new RecyclerAdapter(tasks, MainActivity.this);
+                recyclerView.setAdapter(adapter);
+            }
+        });
+        builder.create().show();
+    }
+
+    @Override
+    public void changeTaskStatus(int position) {
+        tasks.get(position).setDone(
+                !tasks.get(position).getDone()
+        );
     }
 }
