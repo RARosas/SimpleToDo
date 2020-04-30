@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/taskView"
+    android:layout_marginBottom="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:backgroundTint="@color/colorAccent"
+    android:elevation="30dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="16dp">
+
+        <CheckBox
+            android:layout_centerVertical="true"
+            android:id="@+id/checkDoneView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/taskTitleView"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@+id/taskDeleteButton"
+            android:layout_toEndOf="@id/checkDoneView"
+            android:text="@string/welcome_sample"/>
+
+        <Button
+            android:id="@+id/taskDeleteButton"
+            android:textColor="@android:color/black"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:backgroundTint="#00FFFFFF"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/task_delete"
+            android:layout_marginEnd="8dp"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
