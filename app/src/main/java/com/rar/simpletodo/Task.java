@@ -1,14 +1,24 @@
 package com.rar.simpletodo;
 
 public class Task {
+    private int id;
     private String title;
     private String description;
-    private Boolean done;
+    private int done;
 
-    public Task (String title, String description)  {
+    public Task(int id, String title, String description, int done) {
+        this.id = id;
         this.title = title;
         this.description = description;
-        this.done = false;
+        this.done = done;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -27,11 +37,11 @@ public class Task {
         this.description = description;
     }
 
-    public Boolean getDone() {
+    public int getDone() {
         return done;
     }
 
-    public void setDone(Boolean done) {
+    public void setDone(int done) {
         this.done = done;
     }
 }

@@ -30,6 +30,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, final int position) {
         holder.taskTitle.setText(tareas.get(position).getTitle());
+        if(tareas.get(position).getDone()==0)   {
+            holder.checkTaskDone.setChecked(false);
+        } else  {
+            holder.checkTaskDone.setChecked(true);
+            holder.taskTitle.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.taskDescription.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
         holder.checkTaskDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
