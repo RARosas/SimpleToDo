@@ -6,14 +6,14 @@ public class Task {
     private String description;
     private int done;
 
-    public Task(int id, String title, String description, int done) {
+    Task(int id, String title, String description, int done) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.done = done;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 
@@ -21,7 +21,7 @@ public class Task {
         this.id = id;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
@@ -29,19 +29,19 @@ public class Task {
         this.title = title;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
-    public int getDone() {
+    int getDone() {
         return done;
     }
 
-    public void setDone(int done) {
+    void setDone(int done) {
         this.done = done;
     }
 }

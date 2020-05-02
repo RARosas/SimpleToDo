@@ -9,16 +9,16 @@ import java.util.ArrayList;
 
 public class DataBase extends SQLiteOpenHelper{
 
-    public static final String DATABASE_NAME = "TasksDB";
-    public static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "TasksDB";
+    private static final int DATABASE_VERSION = 1;
 
-    protected static final String TABLE_NAME = "TasksToDo";
-    public static final String TASKID = "idTask";
-    public static final String TASKTITLE = "titleTask";
-    public static final String TASKDESC = "descTask";
-    public static final String TASKSTATUS = "statusTask";
+    private static final String TABLE_NAME = "TasksToDo";
+    private static final String TASKID = "idTask";
+    private static final String TASKTITLE = "titleTask";
+    private static final String TASKDESC = "descTask";
+    private static final String TASKSTATUS = "statusTask";
 
-    public static final String SENTENCE =
+    private static final String SENTENCE =
                     "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                     TASKID + " INTEGER PRIMARY KEY NOT NULL, " +
                     TASKTITLE + " VARCHAR(45) NOT NULL, " +
@@ -27,7 +27,7 @@ public class DataBase extends SQLiteOpenHelper{
 
     private SQLiteDatabase tasksDatabase;
 
-    public DataBase(Context context, SQLiteDatabase db)    {
+    DataBase(Context context, SQLiteDatabase db)    {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.tasksDatabase = db;
         tasksDatabase.execSQL(SENTENCE);
@@ -43,7 +43,7 @@ public class DataBase extends SQLiteOpenHelper{
 
     }
 
-    public ArrayList<Task> readTasks ()    {
+    ArrayList<Task> readTasks()    {
         tasksDatabase.execSQL(SENTENCE);
         ArrayList<Task> tasks = new ArrayList<>();
         Cursor cursor = tasksDatabase.rawQuery("SELECT * FROM " + TABLE_NAME + ";", null);
@@ -61,7 +61,7 @@ public class DataBase extends SQLiteOpenHelper{
         return tasks;
     }
 
-    public void insertTask (Task task)  {
+    void insertTask(Task task)  {
         tasksDatabase.execSQL(SENTENCE);
         ContentValues values = new ContentValues();
         values.put(TASKID, task.getId());
@@ -71,12 +71,12 @@ public class DataBase extends SQLiteOpenHelper{
         tasksDatabase.insert(TABLE_NAME, null, values);
     }
 
-    public void deleteTask (Task task)   {
+    void deleteTask(Task task)   {
         tasksDatabase.execSQL(SENTENCE);
         tasksDatabase.delete(TABLE_NAME, TASKID + " = ?", new String[]{String.valueOf(task.getId())});
     }
 
-    public void updateTask (Task task)   {
+    void updateTask(Task task)   {
         tasksDatabase.execSQL(SENTENCE);
         ContentValues values = new ContentValues();
         values.put(TASKID, task.getId());
@@ -86,7 +86,7 @@ public class DataBase extends SQLiteOpenHelper{
         tasksDatabase.update(TABLE_NAME, values, TASKID + " = ?", new String[]{String.valueOf(task.getId())});
     }
 
-    public void databaseClose() {
+    void databaseClose() {
         tasksDatabase.close();
     }
 }

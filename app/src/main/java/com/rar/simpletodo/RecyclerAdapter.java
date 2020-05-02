@@ -9,13 +9,14 @@ import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     private ArrayList<Task> tareas;
     private onButtonsClicks interf;
-    public RecyclerAdapter (ArrayList tareas, Context context)  {
+    RecyclerAdapter (ArrayList<Task> tareas, Context context)  {
         this.tareas = tareas;
         this.interf = (onButtonsClicks) context;
     }

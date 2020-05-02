@@ -22,10 +22,8 @@ public class MainActivity extends AppCompatActivity implements
         View.OnClickListener, RecyclerAdapter.onButtonsClicks   {
 
     private RecyclerView recyclerView;
-    private FloatingActionButton addTaskButton;
     private ArrayList<Task> tasks;
     private RecyclerAdapter adapter;
-    private SQLiteDatabase tasksDB;
     private DataBase dataBase;
     public static final String DATABASE_NAME = "TasksDB";
     private boolean doubleBackToExitPressedOnce = false;
@@ -40,14 +38,14 @@ public class MainActivity extends AppCompatActivity implements
 
     //Initialization of elements.
     private void start() {
-        addTaskButton = findViewById(R.id.addTaskButton);
+        FloatingActionButton addTaskButton = findViewById(R.id.addTaskButton);
         recyclerView = findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         addTaskButton.setOnClickListener(this);
 
         //open database and recover all data in it.
-        tasksDB = openOrCreateDatabase(DATABASE_NAME, MODE_PRIVATE, null);
+        SQLiteDatabase tasksDB = openOrCreateDatabase(DATABASE_NAME, MODE_PRIVATE, null);
         dataBase = new DataBase(this, tasksDB);
         tasks = dataBase.readTasks();
         adapter = new RecyclerAdapter(tasks, MainActivity.this);
@@ -120,8 +118,12 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void changeTaskStatus(int position) {
+        if (tasks.get(position).getDone()==1)   {
+            tasks.get(position).setDone(0);
+        } else  {
+            tasks.get(position).setDone(1);
+        }
         dataBase.updateTask(tasks.get(position));
-        tasks.get(position).setDone(tasks.get(position).getDone());
     }
 
     @Override

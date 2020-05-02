@@ -8,13 +8,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     TextView taskTitle, taskDescription;
     CheckBox checkTaskDone;
     Button taskDeleteButton;
 
-    public RecyclerViewHolder(@NonNull View itemView) {
+    RecyclerViewHolder(@NonNull View itemView) {
         super(itemView);
         taskDescription = itemView.findViewById(R.id.taskDescription);
         taskTitle = itemView.findViewById(R.id.taskTitleView);
