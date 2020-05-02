@@ -117,6 +117,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void editButtonClick(int position) {
+
+    }
+
+    @Override
     public void changeTaskStatus(int position) {
         if (tasks.get(position).getDone()==1)   {
             tasks.get(position).setDone(0);

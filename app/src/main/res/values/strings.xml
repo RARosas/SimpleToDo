@@ -3,5 +3,6 @@
     <string name="welcome_sample">Bienvenido</string>
     <string name="task_name">Nombre de la tarea</string>
     <string name="task_description">Descripcion</string>
-    <string name="task_delete">X</string>
+    <string name="task_delete">Borrar</string>
+    <string name="task_edit">Editar</string>
 </resources>

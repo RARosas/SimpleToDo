@@ -1,11 +1,9 @@
 package com.rar.simpletodo;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,34 +29,33 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, final int position) {
         holder.taskTitle.setText(tareas.get(position).getTitle());
-        if(tareas.get(position).getDone()==0)   {
-            holder.checkTaskDone.setChecked(false);
+        holder.taskDescription.setText(tareas.get(position).getDescription());
+        if (tareas.get(position).getDone()==1)  {
+            holder.taskCard.setChecked(true);
         } else  {
-            holder.checkTaskDone.setChecked(true);
-            holder.taskTitle.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            holder.taskDescription.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.taskCard.setChecked(false);
         }
-        holder.checkTaskDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.taskCard.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)  {
-                    holder.taskTitle.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            public boolean onLongClick(View v) {
+                if (tareas.get(position).getDone()==1)  {
+                    holder.taskCard.setChecked(false);
                     interf.changeTaskStatus(position);
-                    holder.taskDescription.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                } else  {
-                    holder.taskTitle.setPaintFlags(holder.taskTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                    return true;
+                }
+                else    {
+                    holder.taskCard.setChecked(true);
                     interf.changeTaskStatus(position);
-                    holder.taskDescription.setPaintFlags(holder.taskDescription.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                    return true;
                 }
             }
         });
         holder.taskDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                interf.deleteButtonClick((position));
+                interf.deleteButtonClick(position);
             }
         });
-        holder.taskDescription.setText(tareas.get(position).getDescription());
     }
 
     @Override
@@ -72,6 +69,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     public interface onButtonsClicks  {
         void deleteButtonClick(int position);
+        void editButtonClick(int position);
         void changeTaskStatus (int position);
     }
 }
