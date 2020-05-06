@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements
-        View.OnClickListener, RecyclerAdapter.onButtonsClicks   {
+        View.OnClickListener, RecyclerAdapter.onButtonsClicks {
 
     private RecyclerView recyclerView;
     private ArrayList<Task> tasks;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements
     private DataBase dataBase;
     public static final String DATABASE_NAME = "TasksDB";
     private boolean doubleBackToExitPressedOnce = false;
+    private Toolbar toolbar;
 
     //App start.
     @Override
@@ -38,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements
 
     //Initialization of elements.
     private void start() {
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         FloatingActionButton addTaskButton = findViewById(R.id.addTaskButton);
         recyclerView = findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
@@ -52,11 +57,13 @@ public class MainActivity extends AppCompatActivity implements
         recyclerView.setAdapter(adapter);
     }
 
+    //override method of floatingActionButton
     @Override
     public void onClick(View v) {
         addTask();
     }
 
+    //method to add task to view and Database
     public void addTask() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -65,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements
                 dialog.dismiss();
             }
         });
-        builder.setTitle("Nueva Tarea");
+        builder.setTitle("New Task");
         View newtaskdialog = LayoutInflater
                 .from(MainActivity.this)
                 .inflate(R.layout.newtaskdialog, null);
@@ -94,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements
         builder.create().show();
     }
 
+    //method to delete task from view and database
     @Override
     public void deleteButtonClick(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -116,11 +124,45 @@ public class MainActivity extends AppCompatActivity implements
         builder.create().show();
     }
 
+    //method to update task on view and database
     @Override
-    public void editButtonClick(int position) {
-
+    public void editButtonClick(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Edit Task");
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        View editTasDialog = LayoutInflater
+                .from(MainActivity.this)
+                .inflate(R.layout.newtaskdialog, null);
+        builder.setView(editTasDialog);
+        final EditText newtaskname = editTasDialog.findViewById(R.id.newTaskTitleView);
+        final EditText newtaskdesc = editTasDialog.findViewById(R.id.newTaskDescView);
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int id = tasks.get(position).getId();
+                Task tarea = new Task (
+                        id,
+                        newtaskname.getText().toString(),
+                        newtaskdesc.getText().toString(),
+                        0
+                );
+                tasks.get(position).setTitle(tarea.getTitle());
+                tasks.get(position).setDescription(tarea.getDescription());
+                tasks.get(position).setDone(tarea.getDone());
+                dataBase.updateTask(tarea);
+                adapter = new RecyclerAdapter(tasks, MainActivity.this);
+                recyclerView.setAdapter(adapter);
+            }
+        });
+        builder.create().show();
     }
 
+    //method to update status of task on view and database
     @Override
     public void changeTaskStatus(int position) {
         if (tasks.get(position).getDone()==1)   {
@@ -131,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements
         dataBase.updateTask(tasks.get(position));
     }
 
+    //method to check exit from app and close database
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -149,6 +192,6 @@ public class MainActivity extends AppCompatActivity implements
                 dataBase.close();
             }
         }, 2000);
-        
+
     }
 }

@@ -56,6 +56,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
                 interf.deleteButtonClick(position);
             }
         });
+        holder.taskEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                interf.editButtonClick(position);
+            }
+        });
     }
 
     @Override
