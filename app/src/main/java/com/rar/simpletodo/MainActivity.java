@@ -2,6 +2,7 @@ package com.rar.simpletodo;
 
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,6 +16,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -28,7 +34,9 @@ public class MainActivity extends AppCompatActivity implements
     private DataBase dataBase;
     public static final String DATABASE_NAME = "TasksDB";
     private boolean doubleBackToExitPressedOnce = false;
-    private Toolbar toolbar;
+    private boolean theme = true;
+    private Bitmap bitmap = null;
+    private AdView mAdView;
 
     //App start.
     @Override
@@ -36,11 +44,20 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         start();
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.ad_view);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     //Initialization of elements.
     private void start() {
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
         FloatingActionButton addTaskButton = findViewById(R.id.addTaskButton);
@@ -48,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         addTaskButton.setOnClickListener(this);
-
+        //ImageButton light_night = findViewById(R.id.changeBGButton);
+        //light_night.setOnClickListener(this);
         //open database and recover all data in it.
         SQLiteDatabase tasksDB = openOrCreateDatabase(DATABASE_NAME, MODE_PRIVATE, null);
         dataBase = new DataBase(this, tasksDB);
@@ -60,7 +78,16 @@ public class MainActivity extends AppCompatActivity implements
     //override method of floatingActionButton
     @Override
     public void onClick(View v) {
-        addTask();
+        switch (v.getId())  {
+            case R.id.addTaskButton:
+                addTask();
+                break;
+            //case R.id.changeBGButton:
+                //open media from phone and load image to background.
+                //saves image path to database.
+            default:
+                break;
+        }
     }
 
     //method to add task to view and Database
@@ -194,4 +221,5 @@ public class MainActivity extends AppCompatActivity implements
         }, 2000);
 
     }
+
 }
