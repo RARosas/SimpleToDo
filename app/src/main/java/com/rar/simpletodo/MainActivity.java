@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void deleteButtonClick(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("¿Borrar Tarea?");
+        builder.setTitle("¿Delete Task?");
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

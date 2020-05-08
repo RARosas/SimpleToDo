@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">SimpleToDo</string>
-    <string name="welcome_sample">Bienvenido</string>
-    <string name="task_name">Nombre de la tarea</string>
-    <string name="task_description">Descripcion</string>
-    <string name="task_delete">Borrar</string>
-    <string name="task_edit">Editar</string>
+    <string name="welcome_sample">Welcome</string>
+    <string name="task_name">Task Name</string>
+    <string name="task_description">Task Description</string>
+    <string name="task_delete">Delete</string>
+    <string name="task_edit">Edit</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>
